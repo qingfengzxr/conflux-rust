@@ -20,10 +20,10 @@
 
 use crate::Log;
 use cfx_types::{Bloom as H2048, H160, H256, U256, U64};
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 
 /// Receipt
-#[derive(Debug, Serialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct Receipt {
     #[serde(rename = "type", skip_serializing_if = "Option::is_none")]
