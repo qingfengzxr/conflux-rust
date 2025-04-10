@@ -55,8 +55,25 @@ impl Serialize for BlockTransactions {
     }
 }
 
+impl<'de> serde::Deserialize<'de> for BlockTransactions {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where D: serde::Deserializer<'de> {
+        #[derive(Deserialize)]
+        #[serde(untagged)]
+        enum BlockTransactionsHelper {
+            Hashes(Vec<H256>),
+            Full(Vec<Transaction>),
+        }
+
+        match BlockTransactionsHelper::deserialize(deserializer)? {
+            BlockTransactionsHelper::Hashes(hashes) => Ok(BlockTransactions::Hashes(hashes)),
+            BlockTransactionsHelper::Full(transactions) => Ok(BlockTransactions::Full(transactions)),
+        }
+    }
+}
+
 /// Block representation
-#[derive(Debug, Serialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct Block {
     /// Hash of the block

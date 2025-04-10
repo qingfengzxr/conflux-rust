@@ -36,7 +36,7 @@ pub type FilterAddress = VariadicValue<H160>;
 pub type Topic = VariadicValue<H256>;
 
 /// Filter
-#[derive(Debug, PartialEq, Clone, Deserialize, Eq, Hash)]
+#[derive(Debug, PartialEq, Clone, Serialize, Deserialize, Eq, Hash)]
 #[serde(deny_unknown_fields)]
 #[serde(rename_all = "camelCase")]
 pub struct EthRpcLogFilter {
